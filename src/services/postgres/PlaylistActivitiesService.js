@@ -25,11 +25,10 @@ class PlaylistActivitiesService {
   async getPlaylistActivities(playlistId) {
     const query = {
       text: `SELECT users.username, songs.title, playlist_activities.action, playlist_activities.time 
-      FROM playlist_activities,
-      LEFT JOIN users ON playlist_activities.user_id = users.id
-      LEFT JOIN songs ON playlist_activities.song_id = songs.id
-      WHERE playlist_activities.playlist_id = $1
-      ORDER BY playlist_activities.action`,
+      FROM playlist_activities 
+      LEFT JOIN users ON users.id = playlist_activities.user_id 
+      LEFT JOIN songs ON songs.id =  playlist_activities.song_id 
+      WHERE playlist_activities.playlist_id = $1`,
       values: [playlistId],
     };
     const result = await this._pool.query(query);
